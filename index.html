@@ -1,0 +1,116 @@
+index.html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Droguería Llano Verde POS</title>
+
+<style>
+body{
+font-family:Arial;
+background:#f2f2f2;
+padding:20px;
+}
+
+h1{
+color:#0a7f3f;
+}
+
+.producto{
+background:white;
+padding:10px;
+margin:10px;
+border-radius:8px;
+box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+button{
+background:#0a7f3f;
+color:white;
+border:none;
+padding:10px;
+border-radius:5px;
+cursor:pointer;
+}
+
+button:hover{
+background:#096a35;
+}
+
+#total{
+font-size:22px;
+margin-top:20px;
+font-weight:bold;
+}
+
+#carrito{
+margin-top:20px;
+background:white;
+padding:15px;
+border-radius:8px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>Droguería Llano Verde POS</h1>
+
+<h3>Productos</h3>
+
+<div id="productos"></div>
+
+<div id="carrito">
+<h3>Venta actual</h3>
+<ul id="lista"></ul>
+<div id="total">Total: $0</div>
+</div>
+
+<script>
+
+let productos = [
+{nombre:"Acetaminofen",precio:1500},
+{nombre:"Ibuprofeno",precio:2000},
+{nombre:"Suerox 630ml",precio:6000},
+{nombre:"Electrolit",precio:9000},
+{nombre:"Vitamina C",precio:3500},
+{nombre:"Alcohol 70%",precio:4000}
+]
+
+let total = 0
+
+let contenedor = document.getElementById("productos")
+let lista = document.getElementById("lista")
+
+productos.forEach(p=>{
+
+let div=document.createElement("div")
+div.className="producto"
+
+div.innerHTML=`
+<b>${p.nombre}</b><br>
+Precio: $${p.precio}<br><br>
+<button onclick="vender('${p.nombre}',${p.precio})">Agregar venta</button>
+`
+
+contenedor.appendChild(div)
+
+})
+
+function vender(nombre,precio){
+
+let item=document.createElement("li")
+item.innerText=nombre+" - $"+precio
+lista.appendChild(item)
+
+total += precio
+
+document.getElementById("total").innerText="Total: $"+total
+
+}
+
+</script>
+
+</body>
+</html>
