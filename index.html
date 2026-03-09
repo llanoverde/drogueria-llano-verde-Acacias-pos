@@ -1,117 +1,176 @@
-index.html
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <title>Droguería Llano Verde POS</title>
 
 <style>
+
 body{
-font-family:Arial;
-background:#f2f2f2;
+font-family: Arial;
+background:#f4f6f9;
+margin:0;
 padding:20px;
 }
 
 h1{
-color:#0a7f3f;
+text-align:center;
+color:#0a7b34;
+}
+
+.container{
+display:flex;
+gap:20px;
+}
+
+.productos{
+width:60%;
+background:white;
+padding:20px;
+border-radius:10px;
+}
+
+.ventas{
+width:40%;
+background:white;
+padding:20px;
+border-radius:10px;
 }
 
 .producto{
-background:white;
+border-bottom:1px solid #eee;
 padding:10px;
-margin:10px;
-border-radius:8px;
-box-shadow:0 2px 5px rgba(0,0,0,0.1);
+display:flex;
+justify-content:space-between;
 }
 
 button{
-background:#0a7f3f;
+background:#0a7b34;
 color:white;
 border:none;
-padding:10px;
+padding:6px 10px;
 border-radius:5px;
 cursor:pointer;
 }
 
 button:hover{
-background:#096a35;
+background:#095f29;
 }
 
-#total{
+#buscar{
+width:100%;
+padding:10px;
+margin-bottom:15px;
+}
+
+.total{
 font-size:22px;
-margin-top:20px;
 font-weight:bold;
-}
-
-#carrito{
+color:#0a7b34;
 margin-top:20px;
-background:white;
-padding:15px;
-border-radius:8px;
 }
-</style>
 
+</style>
 </head>
 
 <body>
 
 <h1>Droguería Llano Verde POS</h1>
 
-<h3>Productos</h3>
+<input type="text" id="buscar" placeholder="Buscar medicamento..." onkeyup="buscar()">
 
-<div id="productos"></div>
+<div class="container">
 
-<div id="carrito">
-<h3>Venta actual</h3>
-<ul id="lista"></ul>
-<div id="total">Total: $0</div>
+<div class="productos">
+
+<h2>Medicamentos</h2>
+
+<div id="listaProductos"></div>
+
+</div>
+
+<div class="ventas">
+
+<h2>Venta</h2>
+
+<ul id="listaVenta"></ul>
+
+<div class="total" id="total">Total: $0</div>
+
+</div>
+
 </div>
 
 <script>
 
 let productos = [
-{nombre:"Acetaminofen",precio:1500},
-{nombre:"Ibuprofeno",precio:2000},
-{nombre:"Suerox 630ml",precio:6000},
-{nombre:"Electrolit",precio:9000},
-{nombre:"Vitamina C",precio:3500},
-{nombre:"Alcohol 70%",precio:4000}
+
+{nombre:"Acetaminofén",precio:2000},
+{nombre:"Ibuprofeno",precio:3000},
+{nombre:"Amoxicilina",precio:6000},
+{nombre:"Aspirina",precio:2500},
+{nombre:"Diclofenaco",precio:3500},
+{nombre:"Loratadina",precio:4000},
+{nombre:"Omeprazol",precio:4500},
+{nombre:"Buscapina",precio:3800},
+{nombre:"Sal de Frutas",precio:2000},
+{nombre:"Dolex",precio:4200}
+
 ]
 
 let total = 0
 
-let contenedor = document.getElementById("productos")
-let lista = document.getElementById("lista")
+function mostrarProductos(lista){
 
-productos.forEach(p=>{
+let contenedor = document.getElementById("listaProductos")
+
+contenedor.innerHTML=""
+
+lista.forEach(p=>{
 
 let div=document.createElement("div")
 div.className="producto"
 
 div.innerHTML=`
-<b>${p.nombre}</b><br>
-Precio: $${p.precio}<br><br>
-<button onclick="vender('${p.nombre}',${p.precio})">Agregar venta</button>
+<span>${p.nombre} - $${p.precio}</span>
+<button onclick="vender('${p.nombre}',${p.precio})">Agregar</button>
 `
 
 contenedor.appendChild(div)
 
 })
 
+}
+
 function vender(nombre,precio){
 
+let lista=document.getElementById("listaVenta")
+
 let item=document.createElement("li")
+
 item.innerText=nombre+" - $"+precio
+
 lista.appendChild(item)
 
-total += precio
+total+=precio
 
 document.getElementById("total").innerText="Total: $"+total
 
 }
 
+function buscar(){
+
+let texto=document.getElementById("buscar").value.toLowerCase()
+
+let filtrados=productos.filter(p=>p.nombre.toLowerCase().includes(texto))
+
+mostrarProductos(filtrados)
+
+}
+
+mostrarProductos(productos)
+
 </script>
 
 </body>
 </html>
-<!-- cambio -->
